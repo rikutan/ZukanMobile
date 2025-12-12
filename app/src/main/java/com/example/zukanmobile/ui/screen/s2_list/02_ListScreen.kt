@@ -1,6 +1,7 @@
 package com.example.zukanmobile.ui.screen.s2_list
 
 import android.R.attr.name
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement

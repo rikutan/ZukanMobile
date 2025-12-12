@@ -31,7 +31,6 @@ import com.example.zukanmobile.ui.theme.TropicalAqua
 fun DetailScreen(
     modifier: Modifier = Modifier,
     vm: DetailViewModel = hiltViewModel(),
-    specieId: String,
     onBack: () -> Unit,
     onNavigateAR: () -> Unit,
     onNavigatePartnerSelect: () -> Unit,
@@ -101,7 +100,6 @@ fun DetailScreen(
 @Composable
 private fun DetailScreenPreview() {
     DetailScreen(
-        specieId = "",
         onBack = {},
         onNavigateAR = {},
         onNavigatePartnerSelect = {},

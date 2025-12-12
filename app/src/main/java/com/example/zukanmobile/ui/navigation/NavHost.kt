@@ -32,8 +32,8 @@ fun NavHostRouter() {
         // 02 一覧画面 ==============================================================================
         composable("list") {
             ListScreen(
-                onClickItem = {
-                    navController.navigate("detail/$it")
+                onClickItem = { id ->
+                    navController.navigate("detail/$id")
                 }
             )
         }
@@ -43,10 +43,7 @@ fun NavHostRouter() {
         composable(
             route = "detail/{specieId}",
         ) {
-            // 疑問：なんでspecieIdを使うのか？前まで使っていなかったのに
-            val specieId = it.arguments?.getString("specieId")
             DetailScreen(
-                specieId = specieId ?: "",
                 onBack = { navController.popBackStack() },
                 onNavigateAR = { navController.navigate("ar") },
                 onNavigatePartnerSelect = { navController.navigate("partnerSelect") },

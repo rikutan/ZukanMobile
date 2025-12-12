@@ -1,5 +1,6 @@
 package com.example.zukanmobile.firebase.remote
 
+import android.util.Log
 import com.example.zukanmobile.firebase.data.Specie
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -19,6 +20,7 @@ class SpecieRemoteDataSource @Inject constructor(
     suspend fun fetchSpecies(): List<Specie> {
         return try {
             val snapshot = specie.get().await()
+            Log.d("specieRemoteDataSource","Firestore件数：${snapshot.size()}")
             snapshot.documents.mapNotNull { doc ->
                 doc.toObject(Specie::class.java)?.copy(id = doc.id)
             }
@@ -28,7 +30,6 @@ class SpecieRemoteDataSource @Inject constructor(
     }
 
     // SpecieコレクションのIDを取得する関数
-    // 疑問：上の関数は、List<Specie>なのに今回の関数はSpecieだけで戻り値がいいのか
     suspend fun fetchSpecieId(id: String): Specie? {
         return try {
             val doc = specie.document(id).get().await()
