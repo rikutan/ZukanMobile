@@ -21,7 +21,8 @@ fun NavHostRouter() {
 
     NavHost(
         navController = navController,
-        startDestination = "start",
+//        startDestination = "partnerSelect",
+        startDestination = "list",
     ) {
         // 01 スタート画面 ===========================================================================
         composable("start") {

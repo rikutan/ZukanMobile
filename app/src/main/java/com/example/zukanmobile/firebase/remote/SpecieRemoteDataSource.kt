@@ -20,7 +20,6 @@ class SpecieRemoteDataSource @Inject constructor(
     suspend fun fetchSpecies(): List<Specie> {
         return try {
             val snapshot = specie.get().await()
-            Log.d("specieRemoteDataSource","Firestore件数：${snapshot.size()}")
             snapshot.documents.mapNotNull { doc ->
                 doc.toObject(Specie::class.java)?.copy(id = doc.id)
             }

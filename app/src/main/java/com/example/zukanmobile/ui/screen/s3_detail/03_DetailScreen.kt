@@ -36,8 +36,10 @@ fun DetailScreen(
     onNavigatePartnerSelect: () -> Unit,
     onNavigateThemeHistory: () -> Unit,
 ) {
+    // ViewModelから取得 ============================================================================
     val specieDetail by vm.specie.collectAsState()
-    var changeText by remember { mutableStateOf(false) }
+    // =============================================================================================
+
 
     Scaffold(containerColor = DeepTealBlue) {
         Column(

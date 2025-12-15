@@ -1,9 +1,11 @@
 package com.example.zukanmobile.firebase.repository
 
+import com.example.zukanmobile.R
 import com.example.zukanmobile.firebase.data.Specie
 import com.example.zukanmobile.firebase.remote.SpecieRemoteDataSource
 import com.example.zukanmobile.firebase.remote.StorageRemoteDataSource
 import com.example.zukanmobile.ui.screen.s2_list.SpecieListItem
+import com.example.zukanmobile.ui.screen.s4_partnerSelect.SpeciePartnerSelectItem
 import javax.inject.Inject
 
 class SpecieRepository @Inject constructor(
@@ -31,4 +33,16 @@ class SpecieRepository @Inject constructor(
     suspend fun fetchSpecieId(id: String): Specie? = specieRemote.fetchSpecieId(id)
 
 
+    // PartnerSelectScreen で使用するデータをまとめた関数
+    suspend fun fetchPartnerSelectItems(): List<SpeciePartnerSelectItem> {
+        val species = specieRemote.fetchSpecies()
+
+        return species.map { specie ->
+            SpeciePartnerSelectItem(
+                id = specie.id,
+                name = specie.speciesName,
+                imageUrl = R.drawable.t_00001,
+            )
+        }
+    }
 }

@@ -17,13 +17,12 @@ class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    // 疑問：savedStateHandleってなんだ？
     private val specieId: String = savedStateHandle["specieId"] ?: ""
 
     private val _specie = MutableStateFlow<Specie?>(null)
     val specie = _specie.asStateFlow()
 
-    // 疑問：initってなんだ？
+
     init {
         loadDetail()
     }

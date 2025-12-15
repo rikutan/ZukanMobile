@@ -1,7 +1,5 @@
 package com.example.zukanmobile.ui.screen.s2_list
 
-import android.R.attr.name
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,19 +11,16 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.zukanmobile.R
 import com.example.zukanmobile.ui.components.ModelItem
+import com.example.zukanmobile.ui.components.PullToComponent
 import com.example.zukanmobile.ui.components.SearchTopBar
 import com.example.zukanmobile.ui.theme.DeepTealBlue
 
@@ -37,19 +32,21 @@ fun ListScreen(
 ) {
     // ViewModelから取得 ----------------------------------------------------------------------------
     val species by vm.species.collectAsState()
+    val query by vm.query.collectAsState()
+    val list by vm.filteredSpecies.collectAsState(initial = emptyList())
+    val isRefreshing by vm.isRefreshing.collectAsState()
     // ---------------------------------------------------------------------------------------------
 
     val focusManager = LocalFocusManager.current
-    var text by remember { mutableStateOf("") }
-
-    LaunchedEffect(Unit) {
-        vm.loadSpecies()
-    }
 
 
     Scaffold(
         topBar = {
-            SearchTopBar(query = text, onValueChange = { text = it }, onClear = { text = "" })
+            SearchTopBar(
+                query = query,
+                onValueChange = { vm.onQueryChange(it) },
+                onClear = vm::onQueryClear
+            )
         },
         containerColor = DeepTealBlue, modifier = Modifier.clickable(
             onClick = { focusManager.clearFocus() },
@@ -58,32 +55,38 @@ fun ListScreen(
         )
     ) { paddingValues ->
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        PullToComponent(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues),
-            contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-
+            isRefreshing = isRefreshing,
+            onRefresh = vm::onRefresh
         ) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
 
-            items(species) { item ->
-                ModelItem(
-                    model = item.imageUrl ?: "",
-                    id = item.id,
-                    name = item.speciesName
-                ) { onClickItem(item.id) }
+            ) {
+
+                items(list) { item ->
+                    ModelItem(
+                        model = item.imageUrl ?: "",
+                        id = item.id,
+                        name = item.speciesName
+                    ) {
+                        onClickItem(item.id)
+                    }
+                }
             }
-
         }
     }
 }
 
 @Preview
 @Composable
-private fun
-        ListScreenPreview() {
+private fun ListScreenPreview() {
     ListScreen(onClickItem = {})
 }

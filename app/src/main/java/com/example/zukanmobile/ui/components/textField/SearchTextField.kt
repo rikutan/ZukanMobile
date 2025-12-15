@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -86,6 +87,8 @@ fun SearchTextField(
                 text = "創造IDもしくは種族名で検索....",
                 fontFamily = mainFont,
                 fontSize = inputText,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 color = White.copy(0.5f),
             )
         },

@@ -6,17 +6,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.zukanmobile.R
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.zukanmobile.ui.components.CustomButton
 import com.example.zukanmobile.ui.components.ModelViewerForPartnerSelect
 import com.example.zukanmobile.ui.components.SelectImage
@@ -25,12 +29,19 @@ import com.example.zukanmobile.ui.theme.DeepTealBlue
 import com.example.zukanmobile.ui.theme.White
 import com.example.zukanmobile.ui.theme.mainFont
 
+
 @Composable
 fun PartnerSelectScreen(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
-    onNavigate: () -> Unit
+    onNavigate: () -> Unit,
+    vm: PartnerSelectViewModel = hiltViewModel()
 ) {
+    // ViewModelから取得した変数 ======================================================================
+    val selectedSpecie by vm.selectedSpecie.collectAsState()
+    val specieList by vm.specieList.collectAsState()
+    // =============================================================================================
+
     Scaffold(
         containerColor = DeepTealBlue,
         topBar = { TopBar(title = "", onBack = onBack) }
@@ -50,7 +61,7 @@ fun PartnerSelectScreen(
                 modelPath = "models/model1.glb"
             )
             Text(
-                text = "アバター",
+                text = selectedSpecie?.name ?: "アバター",
                 color = White,
                 fontFamily = mainFont,
                 fontSize = 28.sp,
@@ -65,9 +76,19 @@ fun PartnerSelectScreen(
                 modifier = Modifier.padding(vertical = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(20) {
-                    SelectImage(size = 100.dp, image = R.drawable.t_00001, isSelected = true) { }
+                item { Spacer(Modifier.width(4.dp)) }
+
+                items(specieList) { item ->
+                    SelectImage(
+                        size = 100.dp,
+                        image = item.imageUrl ?: 0,
+                        isSelected = selectedSpecie?.id == item.id
+                    ) {
+                        vm.onSpecieSelected(item)
+                    }
                 }
+
+                item { Spacer(Modifier.width(4.dp)) }
             }
 
             HorizontalDivider(thickness = 2.dp, color = White, modifier = Modifier.fillMaxWidth())
