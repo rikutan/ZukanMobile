@@ -38,7 +38,11 @@ import com.example.zukanmobile.ui.theme.mainFont
 // 色んな画面で使用するボタンをまとめたコンポーネント
 // =================================================================================================
 @Composable
-fun CustomButton(modifier: Modifier = Modifier, buttonText: String, onClick: () -> Unit) {
+fun CustomButton(
+    modifier: Modifier = Modifier,
+    buttonText: String,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
         modifier = modifier
@@ -47,7 +51,7 @@ fun CustomButton(modifier: Modifier = Modifier, buttonText: String, onClick: () 
             .wrapContentHeight(),
         colors = ButtonDefaults.buttonColors(
             containerColor = MidnightNavy
-        )
+        ),
     ) { Text(text = buttonText, color = White, fontFamily = mainFont, fontSize = 20.sp) }
 }
 

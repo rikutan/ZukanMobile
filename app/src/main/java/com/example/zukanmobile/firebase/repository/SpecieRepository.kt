@@ -1,6 +1,5 @@
 package com.example.zukanmobile.firebase.repository
 
-import com.example.zukanmobile.R
 import com.example.zukanmobile.firebase.data.Specie
 import com.example.zukanmobile.firebase.remote.SpecieRemoteDataSource
 import com.example.zukanmobile.firebase.remote.StorageRemoteDataSource
@@ -34,15 +33,25 @@ class SpecieRepository @Inject constructor(
 
 
     // PartnerSelectScreen で使用するデータをまとめた関数
-    suspend fun fetchPartnerSelectItems(): List<SpeciePartnerSelectItem> {
+    suspend fun fetchPartnerSelectItems(
+        excludeId: String?
+    ): List<SpeciePartnerSelectItem> {
         val species = specieRemote.fetchSpecies()
 
-        return species.map { specie ->
-            SpeciePartnerSelectItem(
-                id = specie.id,
-                name = specie.speciesName,
-                imageUrl = R.drawable.t_00001,
-            )
-        }
+        return species
+            // リスト内から、指定されたid以外を残すfilter
+            // これにより、選択肢のモデルの中に自分が除外され、残ったリストデータを.mapに渡す
+            .filter {
+                it.id != excludeId
+            }
+            .map { specie ->
+                val imageUrl = storageRemote.getSpecieImageUrl(specie.id)
+
+                SpeciePartnerSelectItem(
+                    id = specie.id,
+                    name = specie.speciesName,
+                    imageUrl = imageUrl,
+                )
+            }
     }
 }

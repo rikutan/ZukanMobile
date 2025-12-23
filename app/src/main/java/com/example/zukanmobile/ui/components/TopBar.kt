@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.zukanmobile.ui.components.textField.SearchTextField
@@ -33,7 +34,7 @@ fun SearchTopBar(
     onClear: () -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,7 +62,14 @@ fun TopBar(title: String, onBack: () -> Unit) {
                 containerColor = DeepTealBlue,
                 titleContentColor = White
             ),
-            title = { Text(text = title, fontFamily = mainFont) },
+            title = {
+                Text(
+                    text = title,
+                    fontFamily = mainFont,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
             navigationIcon = {
                 BackButton(
                     modifier = Modifier.padding(horizontal = 8.dp),
@@ -78,7 +86,10 @@ fun TopBar(title: String, onBack: () -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 private fun TopBarPreview() {
-    Scaffold(topBar = { TopBar(title = "かいたく", onBack = {}) }, containerColor = DeepTealBlue) {
+    Scaffold(
+        topBar = { TopBar(title = "あああああ", onBack = {}) },
+        containerColor = DeepTealBlue
+    ) {
         Text("kakak", modifier = Modifier.padding(it))
     }
 }

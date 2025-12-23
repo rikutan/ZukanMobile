@@ -4,7 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,12 +29,11 @@ import com.example.zukanmobile.ui.theme.DeepTealBlue
 
 @Composable
 fun ListScreen(
-    modifier: Modifier = Modifier,
     onClickItem: (String) -> Unit,
     vm: ListViewModel = hiltViewModel()
 ) {
     // ViewModelから取得 ----------------------------------------------------------------------------
-    val species by vm.species.collectAsState()
+//    val species by vm.species.collectAsState()
     val query by vm.query.collectAsState()
     val list by vm.filteredSpecies.collectAsState(initial = emptyList())
     val isRefreshing by vm.isRefreshing.collectAsState()
@@ -48,7 +50,9 @@ fun ListScreen(
                 onClear = vm::onQueryClear
             )
         },
-        containerColor = DeepTealBlue, modifier = Modifier.clickable(
+        containerColor = DeepTealBlue,
+        contentWindowInsets = WindowInsets(0),
+        modifier = Modifier.clickable(
             onClick = { focusManager.clearFocus() },
             indication = null,
             interactionSource = remember { MutableInteractionSource() }
@@ -80,6 +84,8 @@ fun ListScreen(
                         onClickItem(item.id)
                     }
                 }
+
+                item { Spacer(Modifier.height(32.dp)) }
             }
         }
     }

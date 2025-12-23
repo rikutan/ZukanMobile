@@ -1,6 +1,5 @@
 package com.example.zukanmobile.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.zukanmobile.R
 import com.example.zukanmobile.ui.theme.TropicalAqua
 
@@ -28,7 +27,7 @@ import com.example.zukanmobile.ui.theme.TropicalAqua
 fun SelectImage(
     modifier: Modifier = Modifier,
     size: Dp,
-    image: Int,
+    model: String,
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
@@ -50,8 +49,8 @@ fun SelectImage(
             ),
         contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(image),
+        AsyncImage(
+            model = model,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -66,8 +65,5 @@ fun SelectImage(
 @Composable
 private fun SelectImagePreview() {
     Row {
-        SelectImage(size = 120.dp, image = R.drawable.t_00001, isSelected = true) {}
-        SelectImage(size = 120.dp, image = R.drawable.t_00001, isSelected = true) {}
-        SelectImage(size = 120.dp, image = R.drawable.t_00001, isSelected = true) {}
     }
 }

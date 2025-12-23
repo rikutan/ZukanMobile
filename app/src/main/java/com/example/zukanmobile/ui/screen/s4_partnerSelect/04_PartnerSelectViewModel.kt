@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PartnerSelectViewModel @Inject constructor(
-    private val repo: SpecieRepository
+    private val repo: SpecieRepository,
 ) : ViewModel() {
 
     private val _specieList = MutableStateFlow<List<SpeciePartnerSelectItem>>(emptyList())
@@ -20,13 +20,36 @@ class PartnerSelectViewModel @Inject constructor(
     private val _selectedSpecie = MutableStateFlow<SpeciePartnerSelectItem?>(null)
     val selectedSpecie = _selectedSpecie.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            _specieList.value = repo.fetchPartnerSelectItems()
-        }
-    }
 
     fun onSpecieSelected(item: SpeciePartnerSelectItem) {
         _selectedSpecie.value = item
     }
+
+    fun loadPartnerCandidates(specieId: String?) {
+        viewModelScope.launch {
+            val list = repo.fetchPartnerSelectItems(specieId)
+            _specieList.value = list
+
+            if (list.isNotEmpty()) {
+                _selectedSpecie.value = list.first()
+            }
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
