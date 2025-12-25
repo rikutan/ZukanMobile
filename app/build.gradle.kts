@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -19,6 +21,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // APIKey読み込み
+        val apiKey: String = gradleLocalProperties(rootDir, providers)
+            .getProperty("api_key")
+
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -39,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -64,6 +73,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-ai")
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -81,6 +91,12 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+
+    // Gson
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 
     // テスト用依存関係 -------------------------------------------------------------------------------
     testImplementation(libs.junit)
