@@ -1,4 +1,4 @@
-package com.example.zukanmobile.ui.screen.s2_list
+package com.example.zukanmobile.ui.model
 
 data class ListUiState(
     val items: List<SpecieListItem> = emptyList(),

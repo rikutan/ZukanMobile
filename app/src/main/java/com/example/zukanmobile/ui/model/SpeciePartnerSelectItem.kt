@@ -1,8 +1,7 @@
-package com.example.zukanmobile.ui.screen.s4_partnerSelect
+package com.example.zukanmobile.ui.model
 
 data class SpeciePartnerSelectItem(
     val id: String = "",
     val name: String = "",
     val imageUrl: String? = ""
 )
-

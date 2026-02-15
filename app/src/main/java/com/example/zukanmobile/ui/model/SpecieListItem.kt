@@ -1,4 +1,4 @@
-package com.example.zukanmobile.ui.screen.s2_list
+package com.example.zukanmobile.ui.model
 
 // 一覧画面で表示するデータをまとめた data class
 data class SpecieListItem(

@@ -47,8 +47,7 @@ fun NavHostRouter() {
             ListScreen(
                 onClickItem = { id ->
                     navController.navigate("detail/$id")
-                }
-            )
+                })
         }
 
         navigation(
@@ -60,10 +59,8 @@ fun NavHostRouter() {
             // 03 詳細画面
             // =========================================================================================
             composable(
-                route = "detail/{specieId}",
-                arguments = listOf(
-                    navArgument("specieId") { type = NavType.StringType }
-                )
+                route = "detail/{specieId}", arguments = listOf(
+                    navArgument("specieId") { type = NavType.StringType })
             ) {
                 val parentEntry = remember(it) {
                     navController.getBackStackEntry("interaction")
@@ -110,8 +107,7 @@ fun NavHostRouter() {
                         vm.setPartnerSpecie(partnerSpecieId)
                     },
                     onNavigate = { navController.navigate("themeInput") },
-                    onBack = { navController.popBackStack() }
-                )
+                    onBack = { navController.popBackStack() })
             }
 
             // =====================================================================================
@@ -129,15 +125,24 @@ fun NavHostRouter() {
                     onSend = { navController.navigate("chat") },
                 )
             }
-        }
 
 
-        // =========================================================================================
-        // 06 チャット画面
-        // =========================================================================================
-        composable("chat") {
-            ChatScreen { navController.popBackStack() }
+            // =========================================================================================
+            // 06 チャット画面
+            // =========================================================================================
+            composable("chat") {
+                val parentEntry = remember(it) {
+                    navController.getBackStackEntry("interaction")
+                }
+                val sharedVm: SharedViewModel = hiltViewModel(parentEntry)
+
+                ChatScreen(
+                    sharedVm = sharedVm,
+                    onBack = { navController.popBackStack() }
+                )
+            }
         }
+
 
         // =========================================================================================
         // 07 交流テーマ履歴選択画面

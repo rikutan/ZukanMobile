@@ -1,4 +1,4 @@
-package com.example.zukanmobile.ui.screen.s3_detail
+package com.example.zukanmobile.ui.model
 
 // 詳細画面で表示するデータをまとめたdata class
 data class SpecieDetailItem(

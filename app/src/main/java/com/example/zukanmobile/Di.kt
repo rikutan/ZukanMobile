@@ -1,6 +1,9 @@
 package com.example.zukanmobile
 
 import com.google.firebase.Firebase
+import com.google.firebase.ai.GenerativeModel
+import com.google.firebase.ai.ai
+import com.google.firebase.ai.type.GenerativeBackend
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
@@ -24,4 +27,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStorage(): FirebaseStorage = Firebase.storage
+
+    // Gemini インスタンス ---------------------------------------------------------------------------
+    @Provides
+    @Singleton
+    fun provideGenerativeModel(): GenerativeModel {
+        return Firebase
+            .ai(backend = GenerativeBackend.googleAI())
+            .generativeModel("gemini-2.5-flash")
+    }
 }

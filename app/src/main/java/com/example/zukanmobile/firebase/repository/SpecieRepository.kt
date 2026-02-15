@@ -3,8 +3,8 @@ package com.example.zukanmobile.firebase.repository
 import com.example.zukanmobile.firebase.data.Specie
 import com.example.zukanmobile.firebase.remote.SpecieRemoteDataSource
 import com.example.zukanmobile.firebase.remote.StorageRemoteDataSource
-import com.example.zukanmobile.ui.screen.s2_list.SpecieListItem
-import com.example.zukanmobile.ui.screen.s4_partnerSelect.SpeciePartnerSelectItem
+import com.example.zukanmobile.ui.model.SpecieListItem
+import com.example.zukanmobile.ui.model.SpeciePartnerSelectItem
 import javax.inject.Inject
 
 class SpecieRepository @Inject constructor(

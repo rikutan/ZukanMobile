@@ -3,6 +3,7 @@ package com.example.zukanmobile.ui.screen.s4_partnerSelect
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zukanmobile.firebase.repository.SpecieRepository
+import com.example.zukanmobile.ui.model.SpeciePartnerSelectItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
